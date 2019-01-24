@@ -7,6 +7,7 @@ Author: Simon Thuleau, Francois Husson
 Maintainer: Simon Thuleau <factoinvestigate@gmail.com>
 Description: Brings a set of tools to help and automatically realise the description of principal component analyses (from 'FactoMineR' functions). Detection of existing outliers, identification of the informative components, graphical views and dimensions description are performed threw dedicated functions. The Investigate() function performs all these functions in one, and returns the result as a report document (Word, PDF or HTML).
 Depends: R (>= 3.3.0)
+URL: http://factominer.free.fr/reporting/index.html
 Imports: FactoMineR, stats, methods, graphics, rrcov, rmarkdown, parallel
 License: GPL (>= 2)
 Encoding: latin1
