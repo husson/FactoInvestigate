@@ -1,6 +1,6 @@
 Investigate <-
 function(res, file = "Investigate.Rmd", document = c("html_document"), Iselec = "contrib", Vselec = "cos2", Rselec = "contrib", Cselec = "cos2", Mselec = "cos2", Icoef = 1, Vcoef = 1, Rcoef = 1, Ccoef = 1, Mcoef = 1, 
-           ncp = NULL, time = "10s", nclust = -1, mmax = 10, nmax = 10, hab = NULL, ellipse = TRUE, display.HCPC = TRUE, out.selec = TRUE, remove.temp = TRUE, parallel = TRUE, cex = 0.7, options = NULL) {
+           ncp = NULL, time = "10s", nclust = -1, mmax = 10, nmax = 10, hab = NULL, ellipse = TRUE, display.HCPC = TRUE, out.selec = TRUE, remove.temp = TRUE, parallel = TRUE, cex = 0.7, openFile = TRUE, keepRmd = FALSE, options = NULL) {
 	if(!is.character(file)) {return(warning("the parameter 'file' has to be a character chain giving the name of the .Rmd file to write in"))}
     
     # VERIFICATIONS
@@ -227,10 +227,10 @@ function(res, file = "Investigate.Rmd", document = c("html_document"), Iselec = 
     rm(res, param, res.hcpc, memory, script)
     
     cat("-- ", gettext("outputs compilation"), " (", gettext("time spent"), " : ", round(as.numeric(difftime(Sys.time(), t, units = "secs")), 2), "s) --\n\n", sep = "")
-    readRmd(file, document)
+    if (openFile==TRUE) readRmd(file, document)
     if(remove.temp) {
       file.remove("Workspace.RData")
-      file.remove(file)
+      if (!keepRmd) file.remove(file)
     }
     cat("-- ", gettext("task completed"), " (", gettext("time spent"), " : ", round(as.numeric(difftime(Sys.time(), t, units = "secs")), 2), "s) --\n", sep = "")
     cat(gettext("This interpretation of the results was carried out automatically"),", \n",gettext("it cannot match the quality of a personal interpretation"),"\n",sep="")
