@@ -12,7 +12,8 @@ Investigate(res, file = "Investigate.Rmd", document = c("html_document"),
             Ccoef = 1, Mcoef = 1, ncp = NULL, time = "10s", nclust = -1, 
             mmax = 10, nmax = 10, hab = NULL, ellipse = TRUE, display.HCPC = TRUE, 
             out.selec = TRUE, remove.temp = TRUE, parallel = TRUE, cex = 0.7,
-			      openFile = TRUE, keepRmd = FALSE, options = NULL)
+			openFile = TRUE, keepRmd = FALSE, options = NULL, 
+			language = "auto")
 }
 
 \arguments{
@@ -95,8 +96,9 @@ an optional argument for the generic plot functions, used to adjust the size of 
 \item{keepRmd}{Keep the Rmd file; FALSE by default}
 \item{options}{a character string that gives the output options fir the figures. 
 If NULL, \code{options="r, echo = FALSE, fig.align = 'center', fig.height = 3.5, fig.width = 5.5"} for linux and Mac
-and \code{options="r, echo = FALSE, fig.height = 3.5, fig.width = 5.5"} for Windows
-}
+and \code{options="r, echo = FALSE, fig.height = 3.5, fig.width = 5.5"} for Windows}
+\item{language}{possible values "auto", "en", or "fr": by default, "auto" detects the language (English or French), 
+"en" for English and "fr" for "French"}
 }
 
 \details{
