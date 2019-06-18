@@ -326,7 +326,10 @@ function(res, dim = 1:2, margin = 1, selec = "cos2", coef = 1) {
              }
            },
            
-           MFA = {},
+           MFA = {
+             drawn <- NULL
+             what.drawn <- NULL
+           },
            
            HMFA = {},
            

@@ -6,9 +6,9 @@ function(res, analyse = "PCA", file = "", document = c("word_document", "pdf_doc
     {return(warning("the parameter 'document' should only take 'word_document', 'pdf_document' or 'html_document' as value"))}
     document = unique(document)
     
-    if(!analyse %in% c("PCA", "CA", "CaGalt", "MCA", "MFA", "DMFA", "FAMD", "GPA", "HCPC"))
+    if(!analyse %in% c("PCA", "CA", "CaGalt", "MCA", "MFA", "DMFA", "FAMD", "GPA", "HCPC", "HCPCshiny"))
     {return(warning("the parameter 'res' has to be an object of class 'PCA', 'CA', 'CaGalt', 'MCA', 'MFA', 'DMFA', 'FAMD', 'GPA' or 'HCPC'"))}
-    param = getParam(res)
+#    param = getParam(res)
     
     # initialisation du fichier Rmd
     cat(file = file, append = FALSE)
@@ -145,8 +145,6 @@ function(res, analyse = "PCA", file = "", document = c("word_document", "pdf_doc
 		     writeRmd("---\ntitle: '", gettext("Classification",domain="R-FactoInvestigate"), "'\nauthor: '", gettext("Dataset",domain="R-FactoInvestigate")," ",
              strsplit(as.character(res$call$call), "\\[")[[2]][1], "'\n", "output:",
              paste("\n  ", document, ": default", sep = "", collapse = ""), sep = "", file = file, end = "\n---\n")
-             # writeRmd(gettext("This dataset contains",domain="R-FactoInvestigate"), ind + length(ind.sup), gettext("individuals and",domain="R-FactoInvestigate"),
-                      # var + length(quanti.sup) + length(quali.sup), "variables", file = file, end = NULL)
            })
     
     writeRmd(".", file = file)

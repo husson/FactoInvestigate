@@ -1,7 +1,7 @@
 Investigate <-
 function(res, file = "Investigate.Rmd", document = c("html_document"), Iselec = "contrib", Vselec = "cos2", Rselec = "contrib", Cselec = "cos2", Mselec = "cos2", Icoef = 1, Vcoef = 1, Rcoef = 1, Ccoef = 1, Mcoef = 1, 
            ncp = NULL, time = "10s", nclust = -1, mmax = 10, nmax = 10, hab = NULL, ellipse = TRUE, display.HCPC = TRUE, out.selec = TRUE, remove.temp = TRUE, parallel = TRUE, cex = 0.7, openFile = TRUE, keepRmd = FALSE, options = NULL, language="auto") {
-	if(!is.character(file)) {return(warning("the parameter 'file' has to be a character chain giving the name of the .Rmd file to write in"))}
+  if(!is.character(file)) {return(warning("the parameter 'file' has to be a character chain giving the name of the .Rmd file to write in"))}
     
     # VERIFICATIONS    if(!is.numeric(Iselec) & !is.character(Iselec)) {return(warning("the argument 'Iselec' should be a numeric or character vector"))}
     if(!is.numeric(Vselec) & !is.character(Vselec)) {return(warning("the argument 'Vselec' should be a numeric or character vector"))}
@@ -62,19 +62,13 @@ function(res, file = "Investigate.Rmd", document = c("html_document"), Iselec = 
     t = Sys.time()
     compteur = 0
     analyse = whichFacto(res)
-    if(!analyse %in% c("PCA", "CA", "MCA", "HCPC")) {return(warning("the parameter 'res' has to be an object of class 'PCA', 'CA', 'MCA' or 'HCPC'"))}
+    if(!analyse %in% c("PCA", "CA", "MCA", "HCPC", "HCPCshiny")) {return(warning("the parameter 'res' has to be an object of class 'PCA', 'CA', 'MCA' or 'HCPC'"))}
 
-    memory = res
-    if (analyse %in% c("HCPC")){
-	  res <- res$call$t$res
-	  dim2plot <- 2
-	}
-    param = getParam(res)
-
-    cat("-- ", gettext("creation of the .Rmd file",domain="R-FactoInvestigate"), " (", gettext("time spent",domain="R-FactoInvestigate"), " : ", round(as.numeric(difftime(Sys.time(), t, units = "secs")), 2), "s) --\n\n", sep = "")
+   param = getParam(res)
+   cat("-- ", gettext("creation of the .Rmd file",domain="R-FactoInvestigate"), " (", gettext("time spent",domain="R-FactoInvestigate"), " : ", round(as.numeric(difftime(Sys.time(), t, units = "secs")), 2), "s) --\n\n", sep = "")
 	createRmd(res, analyse=analyse, file, document)
-    writeRmd("library(FactoMineR)\nload('Workspace.RData')", file = file, start = TRUE, stop = TRUE, options = "r, echo = FALSE")
-    
+  writeRmd("library(FactoMineR)\nload('Workspace.RData')", file = file, start = TRUE, stop = TRUE, options = "r, echo = FALSE")
+  
     if (analyse %in% c("PCA","CA","MCA")){
       if(out.selec) {
         cat("-- ", gettext("detection of outliers",domain="R-FactoInvestigate"), " (", gettext("time spent",domain="R-FactoInvestigate"), " : ", round(as.numeric(difftime(Sys.time(), t, units = "secs")), 2), "s) --\n", sep = "")
@@ -101,9 +95,10 @@ function(res, file = "Investigate.Rmd", document = c("html_document"), Iselec = 
           dim2plot = ncp + 1
         }
       }
-    }
-    if(param$ncp.mod < dim2plot) {
-       switch(analyse,
+    
+
+  if(param$ncp.mod < dim2plot) {
+    switch(analyse,
              PCA = {
                data = param$data
                quanti.sup = param$quanti.sup
@@ -145,7 +140,10 @@ function(res, file = "Investigate.Rmd", document = c("html_document"), Iselec = 
                rm(data, quanti.sup, quali.sup, ind.sup, row.w)
              },
              
-             # MFA = {},
+             MFA = {
+               res = MFA(param$data, group =param$group, type = param$type, ind.sup = param$ind.sup, graph = FALSE, 
+                         row.w = param$row.w, num.group.sup = param$num.group.sup, ncp = dim2plot)
+             },
              
              # HMFA = {},
              
@@ -160,6 +158,7 @@ function(res, file = "Investigate.Rmd", document = c("html_document"), Iselec = 
       
       param = getParam(res)
     }
+  }
     if (analyse %in% c("PCA","CA","MCA")){
       cat("-- ", gettext("components description",domain="R-FactoInvestigate"), " (", gettext("time spent",domain="R-FactoInvestigate"), " : ", round(as.numeric(difftime(Sys.time(), t, units = "secs")), 2), "s) --\n", sep = "")
       for(q in 1:ceiling(ncp / 2)) {
@@ -186,10 +185,10 @@ function(res, file = "Investigate.Rmd", document = c("html_document"), Iselec = 
       }
       cat("\n")
       writeRmd("\n- - -", file = file, end = "\n\n")
-    }
+    
 	if(display.HCPC) {
 	  cat("-- ", gettext("classification",domain="R-FactoInvestigate"), " (", gettext("time spent",domain="R-FactoInvestigate"), " : ", round(as.numeric(difftime(Sys.time(), t, units = "secs")), 2), "s) --\n", sep = "")
-      if(sum(log(dimActive(res)) ^ 2) < 83.38) {
+        if(sum(log(dimActive(res))^2) < 83.38) {
         compteur = compteur + 1
         writeRmd("### ", compteur,". Classification", end = "\n\n", file = file, sep = "")
         
@@ -210,7 +209,7 @@ function(res, file = "Investigate.Rmd", document = c("html_document"), Iselec = 
     } else {
       res.hcpc = NULL
     }
-  
+    }
     if (analyse %in% c("PCA","CA","MCA")){
       cat("-- ", gettext("annexes writing",domain="R-FactoInvestigate"), " (", gettext("time spent",domain="R-FactoInvestigate"), " : ", round(as.numeric(difftime(Sys.time(), t, units = "secs")), 2), "s) --\n\n", sep = "")
       writeRmd("\n- - -", file = file, end = "\n\n")
@@ -232,14 +231,19 @@ function(res, file = "Investigate.Rmd", document = c("html_document"), Iselec = 
           writeRmd("**", paste("Figure", compteur), " - ", gettext("List of variables characterizing the clusters of the classification",domain="R-FactoInvestigate"), end = ".**\n\n", file = file, sep = "")
         }
       }
-    }
+    
+      save(res, param, ncp, cex, res.hcpc, memory, file = "Workspace.RData")
+      rm(res, param, res.hcpc, memory, script)
+      }
+  if (analyse %in% c("HCPC")){
+    compteur = compteur + 1
+    classif(res, file = file, nclust = nclust, figure.title = paste("Figure", compteur), graph = TRUE, options = options)
+    save(res, file = "Workspace.RData")
+  }
     writeRmd(file = file)
-   
     script = scriptRmd(file)
     
     cat("-- ", gettext("saving data",domain="R-FactoInvestigate"), " (", gettext("time spent",domain="R-FactoInvestigate"), " : ", round(as.numeric(difftime(Sys.time(), t, units = "secs")), 2), "s) --\n\n", sep = "")
-    save(res, param, ncp, cex, res.hcpc, memory, file = "Workspace.RData")
-    rm(res, param, res.hcpc, memory, script)
     
     cat("-- ", gettext("outputs compilation",domain="R-FactoInvestigate"), " (", gettext("time spent",domain="R-FactoInvestigate"), " : ", round(as.numeric(difftime(Sys.time(), t, units = "secs")), 2), "s) --\n\n", sep = "")
     if (openFile==TRUE) readRmd(file, document)
