@@ -761,7 +761,7 @@ msgid "individuals are considered as illustrative"
 msgstr "individus sont illustratifs"
 
 msgid "Correspondence Analysis"
-msgstr "Analyse Factorielle des Correspondances"
+msgstr "Analyse des Correspondances"
 
 msgid "rows and"
 msgstr "lignes et"

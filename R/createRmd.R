@@ -8,7 +8,7 @@ function(res, analyse = "PCA", file = "", document = c("word_document", "pdf_doc
     
     if(!analyse %in% c("PCA", "CA", "CaGalt", "MCA", "MFA", "DMFA", "FAMD", "GPA", "HCPC", "HCPCshiny"))
     {return(warning("the parameter 'res' has to be an object of class 'PCA', 'CA', 'CaGalt', 'MCA', 'MFA', 'DMFA', 'FAMD', 'GPA' or 'HCPC'"))}
-#    param = getParam(res)
+    if (!analyse %in% c("HCPC", "HCPCshiny")) param = getParam(res)
     
     # initialisation du fichier Rmd
     cat(file = file, append = FALSE)

@@ -232,8 +232,8 @@ function(res, file = "Investigate.Rmd", document = c("html_document"), Iselec = 
         }
       }
     
-      save(res, param, ncp, cex, res.hcpc, memory, file = "Workspace.RData")
-      rm(res, param, res.hcpc, memory, script)
+      save(res, param, ncp, cex, res.hcpc, file = "Workspace.RData")
+      rm(res, param, res.hcpc)
       }
   if (analyse %in% c("HCPC")){
     compteur = compteur + 1
@@ -247,9 +247,9 @@ function(res, file = "Investigate.Rmd", document = c("html_document"), Iselec = 
     
     cat("-- ", gettext("outputs compilation",domain="R-FactoInvestigate"), " (", gettext("time spent",domain="R-FactoInvestigate"), " : ", round(as.numeric(difftime(Sys.time(), t, units = "secs")), 2), "s) --\n\n", sep = "")
     if (openFile==TRUE) readRmd(file, document)
-    if(remove.temp) {
+    if(remove.temp & (!keepRmd)) {
       file.remove("Workspace.RData")
-      if (!keepRmd) file.remove(file)
+      file.remove(file)
     }
     cat("-- ", gettext("task completed",domain="R-FactoInvestigate"), " (", gettext("time spent",domain="R-FactoInvestigate"), " : ", round(as.numeric(difftime(Sys.time(), t, units = "secs")), 2), "s) --\n", sep = "")
     cat(gettext("This interpretation of the results was carried out automatically",domain="R-FactoInvestigate"),", \n",gettext("it cannot match the quality of a personal interpretation",domain="R-FactoInvestigate"),"\n",sep="")

@@ -123,8 +123,8 @@ The \code{Iselec} argument (respectively \code{Vselec}, \code{Rselec} or \code{C
 \examples{
 require(FactoMineR)
 data(decathlon)
-res.pca = PCA(decathlon, quanti.sup = c(11:12), quali.sup = c(13), graph = FALSE)
 \dontrun{
+res.pca = PCA(decathlon, quanti.sup = c(11:12), quali.sup = c(13), graph = FALSE)
 Investigate(res.pca, file = "PCA.Rmd", document = "html_document", time = "1000L", 
             parallel = FALSE)
 
