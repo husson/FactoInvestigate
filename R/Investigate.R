@@ -1,8 +1,12 @@
 Investigate <-
 function(res, file = "Investigate.Rmd", document = c("html_document"), Iselec = "contrib", Vselec = "cos2", Rselec = "contrib", Cselec = "cos2", Mselec = "cos2", Icoef = 1, Vcoef = 1, Rcoef = 1, Ccoef = 1, Mcoef = 1, 
-           ncp = NULL, time = "10s", nclust = -1, mmax = 10, nmax = 10, hab = NULL, ellipse = TRUE, display.HCPC = TRUE, out.selec = TRUE, remove.temp = TRUE, parallel = TRUE, cex = 0.7, openFile = TRUE, keepRmd = FALSE, options = NULL, language="auto") {
+           ncp = NULL, time = "10s", nclust = -1, mmax = 10, nmax = 10, hab = NULL, ellipse = TRUE, display.HCPC = TRUE, out.selec = TRUE, remove.temp = TRUE, parallel = TRUE, cex = 0.7, openFile = TRUE, keepRmd = FALSE, 
+		   codeGraphInd = NULL, codeGraphVar=NULL, options = NULL, language="auto") {
   if(!is.character(file)) {return(warning("the parameter 'file' has to be a character chain giving the name of the .Rmd file to write in"))}
     
+    old.encoding <- .Options$encoding
+    options(encoding = "UTF-8")
+
     # VERIFICATIONS    if(!is.numeric(Iselec) & !is.character(Iselec)) {return(warning("the argument 'Iselec' should be a numeric or character vector"))}
     if(!is.numeric(Vselec) & !is.character(Vselec)) {return(warning("the argument 'Vselec' should be a numeric or character vector"))}
     if(!is.numeric(Rselec) & !is.character(Rselec)) {return(warning("the argument 'Rselec' should be a numeric or character vector"))}
@@ -67,7 +71,7 @@ function(res, file = "Investigate.Rmd", document = c("html_document"), Iselec = 
    param = getParam(res)
    cat("-- ", gettext("creation of the .Rmd file",domain="R-FactoInvestigate"), " (", gettext("time spent",domain="R-FactoInvestigate"), " : ", round(as.numeric(difftime(Sys.time(), t, units = "secs")), 2), "s) --\n\n", sep = "")
 	createRmd(res, analyse=analyse, file, document)
-  writeRmd("library(FactoMineR)\nload('Workspace.RData')", file = file, start = TRUE, stop = TRUE, options = "r, echo = FALSE")
+  writeRmd("library(FactoMineR)\nload('~/Workspace.RData')", file = file, start = TRUE, stop = TRUE, options = "r, echo = FALSE")
   
     if (analyse %in% c("PCA","CA","MCA")){
       if(out.selec) {
@@ -176,7 +180,8 @@ function(res, file = "Investigate.Rmd", document = c("html_document"), Iselec = 
         if(dim[1] == nrow(res$eig)) {dim = dim - 1}
       
         factoGraph(res, file = file, dim = dim, hab = hab, ellipse = ellipse, Iselec = Iselec, Vselec = Vselec, Rselec = Rselec, Cselec = Cselec, Mselec = Mselec, 
-                 Icoef = Icoef, Vcoef = Vcoef, Rcoef = Rcoef, Ccoef = Ccoef, Mcoef = Mcoef, figure.title = paste("Figure", compteur), graph = FALSE, cex = 0.7, options = options)
+                 Icoef = Icoef, Vcoef = Vcoef, Rcoef = Rcoef, Ccoef = Ccoef, Mcoef = Mcoef, figure.title = paste("Figure", compteur), graph = FALSE, cex = 0.7, 
+				 codeGraphInd = codeGraphInd, codeGraphVar = codeGraphVar ,options = options)
    
         desc = dim
         if(dim[2] == nrow(res$eig)) {desc = dim[2]}
@@ -246,6 +251,7 @@ function(res, file = "Investigate.Rmd", document = c("html_document"), Iselec = 
     cat("-- ", gettext("saving data",domain="R-FactoInvestigate"), " (", gettext("time spent",domain="R-FactoInvestigate"), " : ", round(as.numeric(difftime(Sys.time(), t, units = "secs")), 2), "s) --\n\n", sep = "")
     
     cat("-- ", gettext("outputs compilation",domain="R-FactoInvestigate"), " (", gettext("time spent",domain="R-FactoInvestigate"), " : ", round(as.numeric(difftime(Sys.time(), t, units = "secs")), 2), "s) --\n\n", sep = "")
+    options(encoding = old.encoding)
     if (openFile==TRUE) readRmd(file, document)
     if(remove.temp & (!keepRmd)) {
       file.remove("Workspace.RData")
@@ -254,4 +260,5 @@ function(res, file = "Investigate.Rmd", document = c("html_document"), Iselec = 
     cat("-- ", gettext("task completed",domain="R-FactoInvestigate"), " (", gettext("time spent",domain="R-FactoInvestigate"), " : ", round(as.numeric(difftime(Sys.time(), t, units = "secs")), 2), "s) --\n", sep = "")
     cat(gettext("This interpretation of the results was carried out automatically",domain="R-FactoInvestigate"),", \n",gettext("it cannot match the quality of a personal interpretation",domain="R-FactoInvestigate"),"\n",sep="")
     if (language!="auto") Sys.setenv(LANG=saveLANG)
+
 	}
