@@ -44,7 +44,7 @@ function(res, file = "", dim = 1:2, Rselec = "cos2", Cselec = "cos2", Rcoef = 1,
                writeRmd("par(mar = c(4.1, 4.1, 1.1, 2.1))\nplot.CA(res, selectRow = r.drawn, selectCol = c.drawn, axes = ", dim[1], ":", dim[2],
                       ", choix = 'CA', invisible = c('var', 'quali'), title = '', cex = cex)", stop = TRUE, sep = "", file = file, end = "\n\n")
              } else{
-			   eval(str2expression(codeGraphCA))
+			   eval(parse(text=codeGraphCA))
                writeRmd(file = file)
                writeRmd(start = TRUE, options = options, file = file, end = "")
                writeRmd(paste0("par(mar = c(4.1, 4.1, 1.1, 2.1))\n",codeGraphCA), stop = TRUE, sep = "", file = file, end = "\n\n")

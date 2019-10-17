@@ -29,7 +29,7 @@ function(res, file = "", dim = 1:2, Iselec = "contrib", Icoef = 1, figure.title 
              
              if(graph) plot.PCA(res, select = drawn, axes = c(dim[1],dim[2]), choix = 'ind', invisible = 'quali', title = gettext("Individuals factor map (PCA)",domain="R-FactoInvestigate"), cex = cex)
            } else{
-			   eval(str2expression(codeGraphInd))
+			   eval(parse(text=codeGraphInd))
            }
              writeRmd(file = file)
              writeRmd(start = TRUE, options = options, file = file, end = "")
@@ -53,7 +53,7 @@ function(res, file = "", dim = 1:2, Iselec = "contrib", Icoef = 1, figure.title 
              
              if(graph)  plot.MCA(res, select = drawn, axes = c(dim[1],dim[2]), choix = 'ind', invisible = c('var', 'quali'), title = gettext("Individuals factor map (MCA)",domain="R-FactoInvestigate"), cex = cex)
            } else{
-			   eval(str2expression(codeGraphInd))
+			   eval(parse(text=codeGraphInd))
            }
              writeRmd(file = file)
              writeRmd(start = TRUE, options = options, file = file, end = "")

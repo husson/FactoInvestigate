@@ -28,7 +28,7 @@ function(res, file = "", dim = 1:2, Vselec = "cos2", Vcoef = 1, figure.title = "
              
              if(graph) {
                if (is.null(codeGraphVar)) plot.PCA(res, select = drawn, axes = dim[1]:dim[2], choix = 'var', title = gettext("Variables factor map (PCA)",domain="R-FactoInvestigate"), cex = cex)
-			   else eval(str2expression(codeGraphVar))
+			   else eval(parse(text=codeGraphVar))
              }
              writeRmd(file = file)
              writeRmd(start = TRUE, options = options, file = file, end = "")
@@ -53,7 +53,7 @@ function(res, file = "", dim = 1:2, Vselec = "cos2", Vcoef = 1, figure.title = "
              
              if(graph) plot.MCA(res, selectMod = drawn, axes = c(dim[1],dim[2]), choix = 'var', title = gettext("Variables factor map (MCA)",domain="R-FactoInvestigate"), cex = cex)
 		   } else { 
-		      eval(str2expression(codeGraphVar))
+		      eval(parse(text=codeGraphVar))
            }
              if (is.null(codeGraphVar)) {
 			   dump("drawn", file = file, append = TRUE)
