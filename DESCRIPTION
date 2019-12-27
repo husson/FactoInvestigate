@@ -1,7 +1,7 @@
 Package: FactoInvestigate
 Type: Package
 Title: Automatic Description of Factorial Analysis
-Version: 1.6
+Version: 1.5
 Date: 2019-11-15
 Author: Simon Thuleau, Francois Husson
 Maintainer: Francois Husson <husson@agrocampus-ouest.fr>
