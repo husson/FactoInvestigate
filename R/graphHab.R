@@ -116,7 +116,7 @@ test.de.Wilks <- function(x,grouping){
                
                #shuffle
                res$ind$coord = res$ind$coord[sample[!sample %in% rownames(res$ind.sup$coord)],]
-               res$ind.sup$coord = res$ind.sup$coord[sample[sample %in% rownames(res$ind.sup$coord)],] # works even if ind.sup = NULL
+               res$ind.sup$coord = res$ind.sup$coord[sample[sample %in% rownames(res$ind.sup$coord)],,drop=FALSE] # works even if ind.sup = NULL
                
                if(ellipse) {
                  plotellipses(res, axes = dim[1]:dim[2], invisible = 'quali', select = drawn, keepvar = hab, title = gettext("Individuals factor map (PCA)",domain="R-FactoInvestigate"), cex = cex)
@@ -129,7 +129,7 @@ test.de.Wilks <- function(x,grouping){
              writeRmd("sample = sample(rownames(res$call$X), length(rownames(res$call$X)))", file = file, start = TRUE, options = options)
              writeRmd("res$call$X = res$call$X[sample,]", file = file)
              writeRmd("res$ind$coord = res$ind$coord[sample[!sample %in% rownames(res$ind.sup$coord)],]", file = file)
-             writeRmd("res$ind.sup$coord = res$ind.sup$coord[sample[sample %in% rownames(res$ind.sup$coord)],]", file = file)
+             writeRmd("res$ind.sup$coord = res$ind.sup$coord[sample[sample %in% rownames(res$ind.sup$coord)],,drop=FALSE]", file = file)
              dump("drawn", file = file, append = TRUE)
              dump("hab", file = file, append = TRUE)
              
@@ -211,7 +211,7 @@ test.de.Wilks <- function(x,grouping){
                
                #shuffle
                res$row$coord = res$row$coord[sample[!sample %in% rownames(res$row.sup$coord)],]
-               res$row.sup$coord = res$row.sup$coord[sample[sample %in% rownames(res$row.sup$coord)],] # works even if ind.sup = NULL
+               res$row.sup$coord = res$row.sup$coord[sample[sample %in% rownames(res$row.sup$coord)],,drop=FALSE] # works even if ind.sup = NULL
                
                plot.CA(res, axes = dim[1]:dim[2], choix = 'CA', invisible = c('var', 'quali'), selectRow = r.drawn, selectCol = c.drawn, habillage = hab, title = gettext("Overlayed factor map (CA)",domain="R-FactoInvestigate"), cex = cex)
              }
@@ -220,7 +220,7 @@ test.de.Wilks <- function(x,grouping){
              writeRmd("sample <- sample(rownames(res$call$Xtot), length(rownames(res$call$Xtot)))", file = file, start = TRUE, options = options)
              writeRmd("res$call$Xtot <- res$call$Xtot[sample,]", file = file)
              writeRmd("res$row$coord <- res$row$coord[sample[!sample %in% rownames(res$row.sup$coord)],]", file = file)
-             writeRmd("res$row.sup$coord <- res$row.sup$coord[sample[sample %in% rownames(res$row.sup$coord)],]", file = file)
+             writeRmd("res$row.sup$coord <- res$row.sup$coord[sample[sample %in% rownames(res$row.sup$coord)],,drop=FALSE]", file = file)
              dump("r.drawn", file = file, append = TRUE)
              dump("c.drawn", file = file, append = TRUE)
              dump("hab", file = file, append = TRUE)
@@ -321,7 +321,7 @@ test.de.Wilks <- function(x,grouping){
                
                #shuffle
                res$ind$coord = res$ind$coord[sample[!sample %in% rownames(res$ind.sup$coord)],]
-               res$ind.sup$coord = res$ind.sup$coord[sample[sample %in% rownames(res$ind.sup$coord)],] # works even if ind.sup = NULL
+               res$ind.sup$coord = res$ind.sup$coord[sample[sample %in% rownames(res$ind.sup$coord)],,drop=FALSE] # works even if ind.sup = NULL
                
                if(ellipse) {
                  plotellipses(res, axes = dim[1]:dim[2], invisible = c('var', 'quali'), select = drawn, keepvar = hab, title = gettext("Individuals factor map (MCA)",domain="R-FactoInvestigate"), cex = cex)
@@ -334,7 +334,7 @@ test.de.Wilks <- function(x,grouping){
              writeRmd("sample = sample(rownames(res$call$X), length(rownames(res$call$X)))", file = file, start = TRUE, options = options)
              writeRmd("res$call$X = res$call$X[sample,]", file = file)
              writeRmd("res$ind$coord = res$ind$coord[sample[!sample %in% rownames(res$ind.sup$coord)],]", file = file)
-             writeRmd("res$ind.sup$coord = res$ind.sup$coord[sample[sample %in% rownames(res$ind.sup$coord)],]", file = file)
+             writeRmd("res$ind.sup$coord = res$ind.sup$coord[sample[sample %in% rownames(res$ind.sup$coord)],,drop=FALSE]", file = file)
              dump("drawn", file = file, append = TRUE)
              dump("hab", file = file, append = TRUE)
              
