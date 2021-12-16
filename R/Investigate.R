@@ -52,12 +52,9 @@ function(res, file = "Investigate.Rmd", document = c("html_document"), Iselec = 
 	  saveLANG <- Sys.getenv("LANG")
 	  Sys.setenv(LANG=language)
     }
-	if(document == "Word" | document == "word" | document == "doc" | document == "docx" | document == "Word_document") 
-      {document = "word_document"}
-    if(document == "html" | document == "HTML" | document == "HTML_document") 
-      {document ="html_document"}
-    if(document == "pdf" | document == "PDF") 
-      {document = "pdf_document"}
+	if(document == "Word" || document == "word" || document == "doc" || document == "docx" || document == "Word_document") {document <- "word_document"}
+    if(document == "html" || document == "HTML" || document == "HTML_document") {document <- "html_document"}
+    if(document == "pdf" || document == "PDF") {document <- "pdf_document"}
     if(document == "word_document") 
       {options = "r, echo = FALSE, fig.height = 3.5, fig.width = 5.5"}
 	  else 
