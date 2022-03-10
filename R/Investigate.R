@@ -31,7 +31,7 @@ function(res, file = "Investigate.Rmd", document = c("html_document"), Iselec = 
     if(!is.numeric(ncp) & !is.null(ncp)) {return(warning("the argument 'ncp' must be numeric"))}
     if(!is.null(ncp)) {if(ncp < 0) {return(warning("the argument 'ncp' must be positive"))}}
     if(!is.numeric(cex)) {return(warning("the argument 'cex' must be numeric"))} 
-    if(!is.null(ncp)) {if(cex < 0) {return(warning("the argument 'cex' must be positive"))}}
+    if(!is.null(cex)) {if(cex < 0) {return(warning("the argument 'cex' must be positive"))}}
     if(!is.numeric(nclust)) {return(warning("the argument 'nclust' must be numeric"))} 
     
     if(!is.numeric(hab) & !is.character(hab) & !is.null(hab)) {return(warning("the argument 'hab' should be the name or the index of the variable used to color the individuals"))}
@@ -137,7 +137,6 @@ function(res, file = "Investigate.Rmd", document = c("html_document"), Iselec = 
       for(q in 1:endq) {
         dim = c(2 * q - 1, 2 * q)
         writeRmd("\n- - -", file = file, end = "\n\n")
-      
         compteur = compteur + 1
         if(ncp >= dim[2]) {
           cat(gettext("plane",domain="R-FactoInvestigate"), paste(dim[1], ":", dim[2], sep = ""), "\n")

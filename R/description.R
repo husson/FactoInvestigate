@@ -303,7 +303,7 @@ function(res, file = "", dim = 1:2, desc = dim, Iselec = "contrib", Vselec = "co
              # if(length(selec.row) > 100) {
              #   selec.row = names(sort(row.cos2, decreasing = TRUE))[1:100]
              # }
-             Idata = data.frame(rbind(res$row$coord[,dim], res$row.sup$coord[,dim]))
+             Idata = data.frame(rbind(res$row$coord[,dim], res$row.sup$coord[,dim,drop=FALSE]))
              if(length(selec.row) > 100) {
                row.hcpc = HCPC(data.frame(Idata[selec.row,]), kk = 100, consol = FALSE, graph = FALSE)
                Idata$clust = NA
@@ -311,8 +311,8 @@ function(res, file = "", dim = 1:2, desc = dim, Iselec = "contrib", Vselec = "co
                last.clust = length(levels(row.hcpc$data.clust$clust)) + 1
                Idata[!rownames(Idata) %in% selec.row, "clust"] = last.clust
              } else if(length(selec.row) < 10) {
-               row.hcpc = HCPC(data.frame(Idata[selec.row,]), graph = FALSE)
-               Idata$clust = row.hcpc$data.clust$clust
+               row.hcpc = HCPC(data.frame(Idata), graph = FALSE)
+               Idata$clust <- row.hcpc$data.clust$clust
                last.clust = length(levels(row.hcpc$data.clust$clust)) + 1
              } else {
                row.hcpc = HCPC(data.frame(Idata[selec.row,]), graph = FALSE)
@@ -322,9 +322,8 @@ function(res, file = "", dim = 1:2, desc = dim, Iselec = "contrib", Vselec = "co
                Idata[!rownames(Idata) %in% selec.row, "clust"] = last.clust
              }
              
-             
              Idata$clust = as.factor(Idata$clust)
-             CD.dim = catdes(Idata[Idata$clust != last.clust,], 3, proba = 0.15)
+             CD.dim = catdes(Idata[Idata$clust != last.clust,,drop=FALSE], 3, proba = 0.15)
              Itest = sapply(CD.dim$quanti, is.null)
              
              if(any(Itest)) { # identification des clusters non-caracteristiques du plan
@@ -569,7 +568,7 @@ function(res, file = "", dim = 1:2, desc = dim, Iselec = "contrib", Vselec = "co
                last.clust = length(levels(ind.hcpc$data.clust$clust)) + 1
                Idata[!rownames(Idata) %in% selec.ind, "clust"] = last.clust
              } else if(length(selec.ind) < 10) {
-               ind.hcpc = HCPC(data.frame(Idata[selec.ind,]), graph = FALSE)
+               ind.hcpc = HCPC(data.frame(Idata), graph = FALSE)
                Idata$clust = ind.hcpc$data.clust$clust
                last.clust = length(levels(ind.hcpc$data.clust$clust)) + 1
              } else {
