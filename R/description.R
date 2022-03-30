@@ -90,12 +90,14 @@ function(res, file = "", dim = 1:2, desc = dim, Iselec = "contrib", Vselec = "co
                
                if(length(ind.pos) > mmax) {
                  ind.pos = paste(paste(ind.pos[1:(mmax - 1)], collapse = "*, *"), ind.pos[mmax], sep = gettext("* and *",domain="R-FactoInvestigate"))
-                 ind.neg = paste(paste(ind.neg[1:(mmax - 1)], collapse = "*, *"), ind.neg[mmax], sep = gettext("* and *",domain="R-FactoInvestigate"))
                } else if(length(ind.pos) > 1) {
                  ind.pos = paste(paste(ind.pos[- length(ind.pos)], collapse = "*, *"), ind.pos[length(ind.pos)], sep = gettext("* and *",domain="R-FactoInvestigate"))
+               }
+               if(length(ind.neg) > mmax) {
+                 ind.neg = paste(paste(ind.neg[1:(mmax - 1)], collapse = "*, *"), ind.neg[mmax], sep = gettext("* and *",domain="R-FactoInvestigate"))
+               } else if(length(ind.neg) > 1) {
                  ind.neg = paste(paste(ind.neg[- length(ind.neg)], collapse = "*, *"), ind.neg[length(ind.neg)], sep = gettext("* and *",domain="R-FactoInvestigate"))
                }
-               
                if(d %% 2 == 1) {
                  if(length(rownames(Idata)[Idata$clust %in% pos.groups]) != 0) {
                    if(length(rownames(Idata)[Idata$clust %in% pos.groups & rownames(Idata) %in% drawn]) != 0) {
@@ -351,9 +353,12 @@ function(res, file = "", dim = 1:2, desc = dim, Iselec = "contrib", Vselec = "co
                
                if(length(ind.pos) > mmax) {
                  ind.pos = paste(paste(ind.pos[1:(mmax - 1)], collapse = "*, *"), ind.pos[mmax], sep = gettext("* and *",domain="R-FactoInvestigate"))
-                 ind.neg = paste(paste(ind.neg[1:(mmax - 1)], collapse = "*, *"), ind.neg[mmax], sep = gettext("* and *",domain="R-FactoInvestigate"))
                } else if(length(ind.pos) > 1) {
                  ind.pos = paste(paste(ind.pos[- length(ind.pos)], collapse = "*, *"), ind.pos[length(ind.pos)], sep = gettext("* and *",domain="R-FactoInvestigate"))
+               }
+               if(length(ind.neg) > mmax) {
+                 ind.neg = paste(paste(ind.neg[1:(mmax - 1)], collapse = "*, *"), ind.neg[mmax], sep = gettext("* and *",domain="R-FactoInvestigate"))
+               } else if(length(ind.neg) > 1) {
                  ind.neg = paste(paste(ind.neg[- length(ind.neg)], collapse = "*, *"), ind.neg[length(ind.neg)], sep = gettext("* and *",domain="R-FactoInvestigate"))
                }
                
@@ -596,7 +601,6 @@ function(res, file = "", dim = 1:2, desc = dim, Iselec = "contrib", Vselec = "co
              Idata = Idata[order(ind.cos2, decreasing = TRUE),] # tri par qualite de projection decroissante sur le plan (utile pour selection des 5 meilleurs individus ensuite)
              
              
-             
              for(d in desc) {
                writeRmd("\n* * *", file = file, end = "\n\n")
                
@@ -608,9 +612,12 @@ function(res, file = "", dim = 1:2, desc = dim, Iselec = "contrib", Vselec = "co
                
                if(length(ind.pos) > mmax) {
                  ind.pos = paste(paste(ind.pos[1:(mmax - 1)], collapse = "*, *"), ind.pos[mmax], sep = gettext("* and *",domain="R-FactoInvestigate"))
-                 ind.neg = paste(paste(ind.neg[1:(mmax - 1)], collapse = "*, *"), ind.neg[mmax], sep = gettext("* and *",domain="R-FactoInvestigate"))
                } else if(length(ind.pos) > 1) {
                  ind.pos = paste(paste(ind.pos[- length(ind.pos)], collapse = "*, *"), ind.pos[length(ind.pos)], sep = gettext("* and *",domain="R-FactoInvestigate"))
+               }
+               if(length(ind.neg) > mmax) {
+                 ind.neg = paste(paste(ind.neg[1:(mmax - 1)], collapse = "*, *"), ind.neg[mmax], sep = gettext("* and *",domain="R-FactoInvestigate"))
+               } else if(length(ind.neg) > 1) {
                  ind.neg = paste(paste(ind.neg[- length(ind.neg)], collapse = "*, *"), ind.neg[length(ind.neg)], sep = gettext("* and *",domain="R-FactoInvestigate"))
                }
                

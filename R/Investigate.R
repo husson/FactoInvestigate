@@ -77,6 +77,7 @@ function(res, file = "Investigate.Rmd", document = c("html_document"), Iselec = 
         writeRmd("### ", compteur, ". ", gettext("Study of the outliers",domain="R-FactoInvestigate"), file = file, sep = "")
         out.object = outliers(res, file = file, Vselec = Vselec, nmax = nmax, Vcoef = Vcoef, figure.title = paste("Figure", compteur), graph = FALSE, options = options)
         res = out.object$new.res
+		memory = out.object$memory
         param = getParam(res)
         cat(out.object$N %dim0% 0, gettext("outlier(s) terminated",domain="R-FactoInvestigate"), "\n\n")
         rm(out.object)
@@ -133,7 +134,7 @@ function(res, file = "Investigate.Rmd", document = c("html_document"), Iselec = 
     }
       cat("-- ", gettext("components description",domain="R-FactoInvestigate"), " (", gettext("time spent",domain="R-FactoInvestigate"), " : ", round(as.numeric(difftime(Sys.time(), t, units = "secs")), 2), "s) --\n", sep = "")
 	  if (!is.null(codeGraphInd) || !is.null(codeGraphVar) || !is.null(codeGraphCA)) endq <- 1
-	  else endq <- ceiling(ncp/2)
+	  else endq <- ceiling(max(1,ncp)/2)
       for(q in 1:endq) {
         dim = c(2 * q - 1, 2 * q)
         writeRmd("\n- - -", file = file, end = "\n\n")
@@ -188,7 +189,7 @@ function(res, file = "Investigate.Rmd", document = c("html_document"), Iselec = 
       writeRmd("\n- - -", file = file, end = "\n\n")
       writeRmd("## Annexes", file = file)
 
-      if(sum(log(dimActive(res)) ^ 2) < 83.38) {
+      if((sum(log(dimActive(res)) ^ 2) < 83.38) & (ncp>0)) {
         if(sum(unlist(sapply(dimdesc(res, axes = 1:ncp), lapply, nrow))) <= 50) {
           writeRmd("dimdesc(res, axes = 1:", ncp, ")", sep = "", file = file, start = TRUE, stop = TRUE, options = "r, comment = ''")
           compteur = compteur + 1
@@ -205,7 +206,11 @@ function(res, file = "Investigate.Rmd", document = c("html_document"), Iselec = 
         }
       }
 
-      save(res, param, ncp, cex, res.hcpc, file = "Workspace.RData")
+      if(is.null(memory)){
+	    save(res, param, ncp, cex, res.hcpc, file = "Workspace.RData")
+	  } else {
+	    save(res, memory, param, ncp, cex, res.hcpc, file = "Workspace.RData")
+	  }
       rm(res, param, res.hcpc)
       }
   if (analyse %in% c("HCPC")){
