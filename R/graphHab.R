@@ -1,11 +1,37 @@
 graphHab <- function(res, file = "", dim = 1:2, hab = NULL, ellipse = TRUE, Iselec = "contrib", Rselec = "cos2", Cselec = "contrib", Icoef = 1, Rcoef = 1, Ccoef = 1, figure.title = "Figure", graph = TRUE, cex = 0.7, options=NULL) {
 
+# test.de.Wilks <- function(x,grouping){
+  # if (any(summary(grouping)<2)){
+    # notok=grouping%in%(levels(grouping)[which(summary(grouping)<2)])
+    # aux <- rrcov::Wilks.test(x[!notok,,drop=FALSE],grouping[!notok])$parameter
+  # } else aux <- rrcov::Wilks.test(x,grouping)$parameter
+  # pchisq(aux[1],aux[2],lower.tail=FALSE)
+# }
+
 test.de.Wilks <- function(x,grouping){
+
+  if(is.data.frame(x)) x <- data.matrix(x)
+
   if (any(summary(grouping)<2)){
     notok=grouping%in%(levels(grouping)[which(summary(grouping)<2)])
-    aux <- rrcov::Wilks.test(x[!notok,,drop=FALSE],grouping[!notok])$parameter
-  } else aux <- rrcov::Wilks.test(x,grouping)$parameter
-  pchisq(aux[1],aux[2],lower.tail=FALSE)
+    x <- x[!notok,,drop=FALSE]
+	grouping <- as.factor(as.character(grouping[!notok]))
+}
+
+    lev <- levels(grouping)
+    ng <- length(lev)
+    wts <- rep(1, nrow(x))
+    group.means <- matrix(0,ng,ncol(x))
+    for(i in 1:ng) group.means[i,] <- stats::cov.wt(x[which(grouping == lev[i]),], wt=wts[which(grouping == lev[i])])$center
+
+    wcross <- stats::cov.wt((x - group.means[grouping, ]), wt=wts)
+    wcross <- (sum(wts)-1) * wcross$cov
+    tcross <- stats::cov.wt(x, wt=wts)
+    tcross <- (sum(wts)-1) * tcross$cov
+
+    wilks <- det(wcross)/det(tcross)
+    p.value <- pchisq(-(nrow(x) - 1 - (ncol(x)+ng)/2)*log(wilks), ncol(x)*(ng-1), lower.tail=FALSE)
+	return(p.value)
 }
 
     if(!is.character(file)) {return(warning("the parameter 'file' has to be a character chain giving the name of the .Rmd file to write in"))}
