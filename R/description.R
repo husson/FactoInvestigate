@@ -59,7 +59,6 @@ function(res, file = "", dim = 1:2, desc = dim, Iselec = "contrib", Vselec = "co
                last.clust = length(levels(ind.hcpc$data.clust$clust)) + 1
                Idata[!rownames(Idata) %in% selec.ind, "clust"] = last.clust
              }
-             
              Idata$clust = as.factor(Idata$clust)
              CD.dim = catdes(Idata[Idata$clust != last.clust,], 3, proba = 0.15)
              Itest = sapply(CD.dim$quanti, is.null)

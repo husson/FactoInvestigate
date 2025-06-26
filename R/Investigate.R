@@ -197,7 +197,6 @@ function(res, file = "Investigate.Rmd", document = c("html_document"), Iselec = 
         }
         writeRmd("\n", file = file)
       }
-	
       if(display.HCPC & !is.null(res.hcpc)) {
         if(sum(unlist(sapply(res.hcpc$desc.var, lapply, nrow))) <= 50) {
           writeRmd("res.hcpc$desc.var", sep = "", file = file, start = TRUE, stop = TRUE, options = "r, comment = ''")
@@ -205,8 +204,7 @@ function(res, file = "Investigate.Rmd", document = c("html_document"), Iselec = 
           writeRmd("**", paste("Figure", compteur), " - ", gettext("List of variables characterizing the clusters of the classification",domain="R-FactoInvestigate"), end = ".**\n\n", file = file, sep = "")
         }
       }
-
-      if(is.null(memory)){
+      if(!exists("memory")){
 	    save(res, param, ncp, cex, res.hcpc, file = "Workspace.RData")
 	  } else {
 	    save(res, memory, param, ncp, cex, res.hcpc, file = "Workspace.RData")
